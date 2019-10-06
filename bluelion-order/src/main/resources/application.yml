@@ -1,0 +1,52 @@
+server:
+  port: 8504
+
+logging:
+  level:
+    org.springframework.cloud: DEBUG
+    com.bluelion: DEBUG
+
+#security:
+#  oauth2:
+#    resource:
+#      user-info-uri: http://localhost:8503/users/current
+#    client:
+#      id: client_2
+#      client-secret: 123456
+#      access-token-uri: http://localhost:8503/oauth/token
+#      grant-type: client_credentials,password
+#      scope: server
+#
+#paascloud:
+#  oauth2:
+#    client:
+#      id: bluelion-content
+#      accessTokenUrl: http://localhost:8503/oauth/token
+#      clientId: client_2
+#      clientSecret: 123456
+#      clientAuthenticationScheme: header
+#security:
+#  oauth2:
+#    resource:
+#      user-info-uri: http://localhost:8503/users/current
+#    client:
+#      id: client_2
+#      client-secret: 123456
+#      access-token-uri: http://localhost:8503/oauth/token
+#      grant-type: client_credentials,password
+#      scope: server
+spring:
+  application:
+    name: bluelion-order
+  cloud:
+    consul:
+      config:
+        enabled: true
+        host: localhost
+        port: 8500
+        discovery:
+          health-check-path: /health
+          health-check-interval: 15s
+          instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+          register: true
+          service-name: bluelion-order

@@ -1,0 +1,14 @@
+server:
+  port: 8503
+
+logging:
+  level:
+    org.springframework.cloud: DEBUG
+    com.bluelion: DEBUG
+
+spring:
+  profiles:
+    active: dev
+#mybatis:
+#  mapper-locations: classpath:mapping/*.xml
+#  type-aliases-package: com.bluelion.auth.entity

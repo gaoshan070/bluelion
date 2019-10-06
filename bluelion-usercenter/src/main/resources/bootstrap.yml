@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: bluelion-usercenter
+  cloud:
+    consul:
+      config:
+        enabled: true
+        host: localhost
+        port: 8500
+        discovery:
+          health-check-path: /health
+          health-check-interval: 15s
+          instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+          register: true
+          service-name: bluelion-usercenter

@@ -1,0 +1,65 @@
+server:
+  port: 8502
+  compression:
+    enabled: true
+    mime-types:
+    - application/x-gzip
+    - text/html
+    - application/json
+    min-response-size: 100
+    connection-timeout: 10s
+logging:
+  level:
+    org.springframework.cloud: INFO
+    org.springframework.cloud.gateway: trace
+    com.bluelion: INFO
+
+spring:
+  profiles:
+    active: elapse_route, dev
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+#      routes:
+#      - id: rewritepath_route
+#        uri: http://localhost:8501
+#        predicates:
+#        - Path=/user/**
+#        filters:
+#        - RewritePath=/user/(?<segment>.*), /$\{segment}
+---
+spring:
+  profiles: add_request_header_route
+  cloud:
+    gateway:
+      routes:
+      - id: add_request_header_route
+        uri: http://httpbin.org:80/get
+        filters:
+        - AddRequestHeader=X-Request-Foo, Bar
+        predicates:
+        - Method=GET
+---
+spring:
+  profiles: elapse_route
+  cloud:
+    gateway:
+      routes:
+      - id: elapse_route
+        uri: http://localhost:8501
+        filters:
+        - Customer=true
+        - RewritePath=/user/(?<segment>.*), /$\{segment}
+        predicates:
+        - Method=GET
+        - Path=/user/**
+#      - id: auth_route
+#          uri: http://localhost:8503
+#          filters:
+#          - Customer=true
+#          - RewritePath=/oauth/(?<segment>.*), /$\{segment}
+#          predicates:
+#          - Method=GET
+#          - Path=/auth/**
