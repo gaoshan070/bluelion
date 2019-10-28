@@ -1,0 +1,21 @@
+consul:
+  image: consul
+  ports:
+    - "8400:8400"
+    - "8500:8500"
+    - "8600:8600"
+
+bluelion-gateway:
+  image: gaoshan/bluelion-gateway
+  ports:
+    - "8502:8502"
+  links:
+    - "consul"
+    - "bluelion-usercenter"
+
+bluelion-usercenter:
+  image: gaoshan/bluelion-usercenter
+  ports:
+    - "8501:8501"
+  links:
+    - "consul"

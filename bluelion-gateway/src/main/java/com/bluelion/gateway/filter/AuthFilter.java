@@ -2,13 +2,12 @@ package com.bluelion.gateway.filter;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bluelion.gateway.utils.RedisUtil;
-import com.bluelion.shared.enums.ResultCodeEnum;
 import com.bluelion.shared.model.BaseRequest;
 import com.bluelion.shared.model.Result;
 import com.bluelion.shared.utils.JsonUtil;
 import com.bluelion.shared.utils.RequestUtil;
+import com.bluelion.shared.utils.ServiceResultUtil;
 import io.netty.buffer.ByteBufAllocator;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +23,6 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
@@ -33,8 +31,6 @@ import reactor.core.publisher.Mono;
 import java.net.URI;
 import java.nio.CharBuffer;
 import java.nio.charset.StandardCharsets;
-import java.util.List;
-import java.util.TreeMap;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -54,8 +50,6 @@ public class AuthFilter implements GatewayFilter, Ordered {
 
         exchange.getResponse().setStatusCode(HttpStatus.OK);
         exchange.getResponse().getHeaders().add("Content-Type", "application/json;charset=UTF-8");
-        Result result = new Result();
-
         ServerHttpRequest serverHttpRequest = exchange.getRequest();
         String requestMethod = exchange.getRequest().getMethodValue();
         if("POST".equals(requestMethod)) {
@@ -70,9 +64,7 @@ public class AuthFilter implements GatewayFilter, Ordered {
                 || StringUtils.isEmpty(baseRequest.getParams())
                 || StringUtils.isEmpty(baseRequest.getRequestSource())){
                     logger.error("请求内容参数为空");
-                result.setCode(ResultCodeEnum.PARAMS_INVALID.getCode());
-                result.setMsg(ResultCodeEnum.PARAMS_INVALID.getMsg());
-                return exchange.getResponse().writeWith(Mono.just(this.getBodyBuffer(exchange.getResponse(), result)));
+                return exchange.getResponse().writeWith(Mono.just(this.getBodyBuffer(exchange.getResponse(), ServiceResultUtil.illegal())));
             }
             String clientIp = RequestUtil.getClientIp(exchange);
             logger.info("请求IP:" + clientIp);
@@ -84,7 +76,6 @@ public class AuthFilter implements GatewayFilter, Ordered {
             ServerHttpRequest request = serverHttpRequest.mutate().uri(uri).build();
             DataBuffer bodyDataBuffer = stringBuffer(JsonUtil.bean2JsonStr(baseRequest));
             Flux<DataBuffer> bodyFlux = Flux.just(bodyDataBuffer);
-
             request = new ServerHttpRequestDecorator(request) {
                 @Override
                 public Flux<DataBuffer> getBody() {
@@ -94,9 +85,7 @@ public class AuthFilter implements GatewayFilter, Ordered {
             //封装request，传给下一级
             return chain.filter(exchange.mutate().request(request).build());
         } else {
-            result.setCode(ResultCodeEnum.UNSUPPORTED_METHOD.getCode());
-            result.setMsg(ResultCodeEnum.UNSUPPORTED_METHOD.getMsg());
-            return exchange.getResponse().writeWith(Mono.just(this.getBodyBuffer(exchange.getResponse(), result)));
+            return exchange.getResponse().writeWith(Mono.just(this.getBodyBuffer(exchange.getResponse(), ServiceResultUtil.unsupportedMethod())));
         }
 
         //后端调用跳过验签

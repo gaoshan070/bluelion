@@ -1,37 +1,70 @@
 package com.bluelion.shared.model;
 
+import com.bluelion.shared.constants.EncodeMethod;
+import com.bluelion.shared.constants.KeyGroup;
 import com.bluelion.shared.enums.ResultCodeEnum;
+import com.bluelion.shared.utils.CodecUtils;
+import com.bluelion.shared.utils.JsonUtil;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.SerializedName;
+import lombok.Data;
 
-public class Result<T> {
+@Data
+public class Result {
+
         @SerializedName("code")
-        private String code = ResultCodeEnum.SUCCESS.getCode();
+        private String code;
         @SerializedName("msg")
         private String msg;
         @SerializedName("data")
-        private T data;
+        private JsonElement data;
 
-        public String getCode() {
-            return code;
+        public Result() {
+            this.code = ResultCodeEnum.SUCCESS.getCode();
+            this.data = new JsonObject();
         }
 
-        public void setCode(String code) {
+        public Result(String code, JsonElement data, String msg) {
             this.code = code;
-        }
-
-        public String getMsg() {
-            return msg;
-        }
-
-        public void setMsg(String msg) {
+            this.data = data;
             this.msg = msg;
         }
 
-        public T getData() {
-            return data;
+        public Result(String code, String msg) {
+            this.code = code;
+            this.msg = msg;
         }
 
-        public void setData(T data) {
+        public Result(String code, JsonElement data) {
             this.data = data;
+            this.code = code;
+        }
+
+        public Result(JsonElement data) {
+            this.data = data;
+            this.code = ResultCodeEnum.SUCCESS.getCode();
+        }
+
+        public String convert2Result() {
+            String responseJsonStr = JsonUtil.bean2JsonStr(this);
+            return responseJsonStr;
+        }
+        public String convert2Result(KeyGroup keyGroup) {
+            String result = null;
+            try {
+                String responseJsonStr = JsonUtil.bean2JsonStr(this);
+    //            LogContext.instance().info(JsonUtil.formatJsonStr(responseJsonStr));
+                if (EncodeMethod.AES.equals(keyGroup.getEncodeMethod())) {
+                    result = CodecUtils.aesEncode(responseJsonStr, keyGroup);
+                } else {
+    //                LogContext.instance().error("非法加密方法");
+                }
+            } catch (Exception e) {
+    //            LogContext.instance().error(e, "转化回复报文失败");
+            } finally {
+    //            LogContext.instance().info("---------------请求结束---------------");
+            }
+            return result;
         }
 }

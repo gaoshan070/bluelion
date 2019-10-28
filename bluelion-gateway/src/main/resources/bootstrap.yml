@@ -1,6 +1,14 @@
 spring:
   application:
     name: bluelion-gateway
+  cloud:
+    consul:
+      discovery:
+        prefer-ip-address: true
+        health-check-path: /health
+        health-check-interval: 15s
+      host: consul
+      port: 8500
 #  cloud:
 #    consul:
 #      config:

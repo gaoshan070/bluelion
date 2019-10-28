@@ -2,7 +2,9 @@ package com.bluelion.shared.enums;
 
 public enum ResultCodeEnum {
     SUCCESS("1000", "Success"),
-    PARAMS_INVALID("1001", "Params are invalid"),
+    ILLEGAL_REQUEST("1001", "Illegal request"),
+    TOKEN_EXPIRED("1002", "Token is expired"),
+    SERVER_ERROR("1003", "Server error"),
     SERVICE_NOT_FOUND("1004","The service is not found"),
     UNSUPPORTED_METHOD("1005","Unsupported Operation"),
     SGIN_EMPTY("6001", "The sign is empty"),

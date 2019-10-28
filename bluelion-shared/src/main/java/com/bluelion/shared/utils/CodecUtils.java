@@ -133,4 +133,12 @@ public class CodecUtils {
         return false;
     }
 
+    public static void main(String[] args) throws Exception {
+        String data = "{\"account\": \"gaoshan\",\"password\": \"1234qwer\",\"device_info\": {\"mac\": \"xxx\"},\"other_info\": {\"app_id\": \"xxxx\"}}";
+        String mySign = CodecUtils.getMySign(data, KeyGroup.DEFAULT);
+        String encryptionData = aesEncode(data, KeyGroup.DEFAULT);
+        System.out.println(mySign);
+        System.out.println(encryptionData);
+    }
+
 }

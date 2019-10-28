@@ -13,6 +13,8 @@
 # Idea Files #
 *.iml
 .idea/
+*/target/
+
 # Package Files #
 *.jar
 *.war

@@ -33,12 +33,11 @@ public class BaseRequest {
     /**
      * 请求来源
      */
+    @SerializedName("request_source_index")
     private String requestSource;
 
     @SerializedName("version")
     private String version;
-
-
 
 //    /**
 //     * 解析请求对象
@@ -50,6 +49,7 @@ public class BaseRequest {
 ////        logContext.setLoggerName(getLoggerName());
 ////        logContext.info("---------------请求开始---------------");
 //        try {
+//
 ////            this.method = request.getParameter("method");
 //            String param = request.getParameter("param");
 //            String sign = request.getParameter("sign");

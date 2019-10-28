@@ -44,17 +44,17 @@ spring:
 ---
 spring:
   profiles: elapse_route
-  cloud:
-    gateway:
-      routes:
-      - id: elapse_route
-        uri: http://localhost:8501
-        filters:
-        - Customer=true
-        - RewritePath=/user/(?<segment>.*), /$\{segment}
-        predicates:
-        - Method=GET
-        - Path=/user/**
+#  cloud:
+#    gateway:
+#      routes:
+#      - id: elapse_route
+#        uri: http://localhost:8501
+#        filters:
+#        - Customer=true
+#        - RewritePath=/user/(?<segment>.*), /$\{segment}
+#        predicates:
+#        - Method=GET
+#        - Path=/user/**
 #      - id: auth_route
 #          uri: http://localhost:8503
 #          filters:
