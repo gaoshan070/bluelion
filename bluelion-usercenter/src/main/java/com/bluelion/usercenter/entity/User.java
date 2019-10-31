@@ -18,12 +18,18 @@ public class User {
     private String password;
     private String nickName;
     private String email;
+    private String phone;
     private int status;
     private String salt;
     /**
      * 用户token
      */
     private String token;
+
+    /**
+     * CP用的登录验证token
+     */
+    private String vToken;
 
     /**
      * 获取加密变换后的密码
@@ -55,5 +61,15 @@ public class User {
         Pattern p = Pattern.compile("[A-Za-z0-9]{6,20}");
         Matcher m = p.matcher(password);
         return m.matches();
+    }
+
+    public String generateUserToken() {
+        String seed = this.id + "" + CodecUtils.getRequestUUID();
+        return DigestUtils.md5Hex(seed);
+    }
+
+    public String generateUserValidateToken() {
+        String seed = this.id + "" + CodecUtils.getRequestUUID();
+        return DigestUtils.sha1Hex(seed);
     }
 }

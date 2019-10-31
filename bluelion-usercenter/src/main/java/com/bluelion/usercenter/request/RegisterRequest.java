@@ -1,7 +1,6 @@
 package com.bluelion.usercenter.request;
 
 import com.bluelion.shared.model.ApiRequestBody;
-import com.bluelion.shared.model.BaseRequest;
 import com.bluelion.shared.utils.JsonUtil;
 import com.google.gson.annotations.SerializedName;
 import lombok.Data;

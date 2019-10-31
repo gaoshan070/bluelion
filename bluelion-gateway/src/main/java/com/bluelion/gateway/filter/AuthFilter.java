@@ -1,7 +1,9 @@
 package com.bluelion.gateway.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bluelion.gateway.utils.RedisUtil;
+import com.bluelion.gateway.entity.SafeInfo;
+import com.bluelion.gateway.service.SafeInfoService;
+import com.bluelion.shared.enums.ResultCodeEnum;
 import com.bluelion.shared.model.BaseRequest;
 import com.bluelion.shared.model.Result;
 import com.bluelion.shared.utils.JsonUtil;
@@ -39,11 +41,12 @@ import java.util.regex.Pattern;
 public class AuthFilter implements GatewayFilter, Ordered {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-    @Autowired
-    private RedisUtil redisUtil;
 
     @Value("${spring.profiles.active}")
     private String profile;
+
+    @Autowired
+    private SafeInfoService safeService;
 
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
@@ -55,20 +58,28 @@ public class AuthFilter implements GatewayFilter, Ordered {
         if("POST".equals(requestMethod)) {
             //从请求里获取Post请求体
             BaseRequest baseRequest = resolveBodyFromRequest(serverHttpRequest);
+            String sign = baseRequest.getSign();
+            String version = baseRequest.getVersion();
+            String requestSource = baseRequest.getRequestSource();
+            String params = baseRequest.getParams();
             //TODO 得到Post请求的请求参数后，解析签名鉴权
-            logger.info("请求签名:" + baseRequest.getSign());
-            logger.info("请求版本:" + baseRequest.getVersion());
-            logger.info("请求来源:" + baseRequest.getRequestSource());
-            logger.info("请求内容(原始):" + baseRequest.getParams());
-            if(baseRequest == null || StringUtils.isEmpty(baseRequest.getSign())
-                || StringUtils.isEmpty(baseRequest.getParams())
-                || StringUtils.isEmpty(baseRequest.getRequestSource())){
+            logger.info("请求签名:" + sign);
+            logger.info("请求版本:" + version);
+            logger.info("请求来源:" + requestSource);
+            logger.info("请求内容(原始):" + params);
+            if(baseRequest == null || StringUtils.isEmpty(sign)
+                || StringUtils.isEmpty(params)
+                || StringUtils.isEmpty(requestSource)){
                     logger.error("请求内容参数为空");
                 return exchange.getResponse().writeWith(Mono.just(this.getBodyBuffer(exchange.getResponse(), ServiceResultUtil.illegal())));
             }
             String clientIp = RequestUtil.getClientIp(exchange);
             logger.info("请求IP:" + clientIp);
-//            baseRequest.getSign();
+            //请求来源验证
+            SafeInfo safeInfo = safeService.getSafeInfo(requestSource);
+            if (safeInfo == null) {
+                return exchange.getResponse().writeWith(Mono.just(this.getBodyBuffer(exchange.getResponse(), ServiceResultUtil.illegal("invalid request source"))));
+            }
 
             //TODO 重新封装Request 向下传递
             //下面的将请求体再次封装写回到request里，传到下一级，否则，由于请求体已被消费，后续的服务将取不到值

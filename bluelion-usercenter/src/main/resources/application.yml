@@ -5,13 +5,9 @@ logging:
   level:
     org.springframework.cloud: DEBUG
     com.bluelion: DEBUG
-
 spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/bluelion_user?useUnicode=true&characterEncoding=UTF-8
-    username: root
-    password: 123qwe
-    driver-class-name: com.mysql.jdbc.Driver
+  profiles:
+    active: dev
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: com.bluelion.usercenter.entity

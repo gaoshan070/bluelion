@@ -6,12 +6,17 @@ import com.bluelion.shared.model.ApiRequestBody;
 import com.bluelion.shared.model.BaseRequest;
 import com.bluelion.shared.model.Result;
 import com.bluelion.shared.utils.ServiceResultUtil;
+import com.bluelion.usercenter.entity.User;
 import com.bluelion.usercenter.request.RegisterRequest;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class RegisterService extends BaseService implements IMethodService {
+
+    @Autowired
+    private UserBaseService userBaseService;
 
     @Override
     public ApiRequestBody getRequestBody(BaseRequest baseRequest) throws Exception {
@@ -48,4 +53,26 @@ public class RegisterService extends BaseService implements IMethodService {
         return ServiceResultUtil.success(result);
     }
 
+    private Result dealRegister(RegisterRequest registerRequest){
+        if (!User.isValidLoginName(registerRequest.getAccount())) {
+            return ServiceResultUtil.illegal("用户名不合法");
+        }
+        if (!User.isValidPassword(registerRequest.getPassword())) {
+            return ServiceResultUtil.illegal("密码不合法");
+        }
+        String salt = User.generateSalt();
+        String encodePwd = User.getEncodedPassword(registerRequest.getPassword(), salt);
+        User user = new User();
+        user.setEmail(registerRequest.getAccount());
+        user.setPassword(encodePwd);
+        user.setSalt(salt);
+        boolean createUserSuccess = userBaseService.createUser(user);
+        if(createUserSuccess) {
+
+            return ServiceResultUtil.success();
+        } else {
+            return ServiceResultUtil.illegal("Fail to register");
+        }
+
+    }
 }

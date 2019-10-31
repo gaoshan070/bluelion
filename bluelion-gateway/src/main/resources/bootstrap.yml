@@ -7,7 +7,8 @@ spring:
         prefer-ip-address: true
         health-check-path: /health
         health-check-interval: 15s
-      host: consul
+#      host: consul
+      host: localhost
       port: 8500
 #  cloud:
 #    consul:

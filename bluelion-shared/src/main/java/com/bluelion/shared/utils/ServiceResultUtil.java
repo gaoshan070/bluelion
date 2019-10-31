@@ -25,6 +25,13 @@ public class ServiceResultUtil {
     }
 
     /**
+     * 构造非法请求结果
+     */
+    public static Result illegal(String msg) {
+        return new Result(ResultCodeEnum.ILLEGAL_REQUEST.getCode(), msg);
+    }
+
+    /**
      * 不支持的请求方式
      */
     public static Result unsupportedMethod() {
