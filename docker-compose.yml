@@ -12,6 +12,8 @@ bluelion-gateway:
   links:
     - "consul"
     - "bluelion-usercenter"
+    - "bluelion-order"
+    - "bluelion-content"
 
 bluelion-usercenter:
   image: gaoshan/bluelion-usercenter
@@ -19,3 +21,19 @@ bluelion-usercenter:
     - "8501:8501"
   links:
     - "consul"
+
+bluelion-order:
+  image: gaoshan/bluelion-order
+  ports:
+  - "8504:8504"
+  links:
+  - "consul"
+  - "bluelion-usercenter"
+
+bluelion-content:
+  image: gaoshan/bluelion-content
+  ports:
+  - "8505:8505"
+  links:
+  - "consul"
+  - "bluelion-usercenter"
