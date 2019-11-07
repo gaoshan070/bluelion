@@ -3,8 +3,9 @@ server:
 
 logging:
   level:
-    org.springframework.cloud: DEBUG
-    com.bluelion: DEBUG
+    org.springframework.cloud: INFO
+    com.bluelion: INFO
+  file: /data/log/bluelion/usercenter/user.log
 spring:
   profiles:
     active: dev

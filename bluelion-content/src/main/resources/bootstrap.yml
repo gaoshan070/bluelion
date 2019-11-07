@@ -10,15 +10,11 @@ spring:
       #      host: consul
       host: localhost
       port: 8500
-#  cloud:
-#    consul:
-#      config:
-#        enabled: true
-#        host: localhost
-#        port: 8500
-#        discovery:
-#          health-check-path: /health
-#          health-check-interval: 15s
-#          instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
-#          register: true
-#          service-name: bluelion-content
+  sleuth:
+    web:
+      client:
+        enabled: true
+    sampler:
+      probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
+    zipkin:
+      base-url: http://localhost:9411/

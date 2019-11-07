@@ -10,9 +10,10 @@ server:
     connection-timeout: 10s
 logging:
   level:
-    org.springframework.cloud: INFO
-    org.springframework.cloud.gateway: trace
-    com.bluelion: INFO
+    org.springframework.cloud: info
+    org.springframework.cloud.gateway: info
+    com.bluelion: info
+  file: /data/log/bluelion/gateway/gateway.log
 
 spring:
   profiles:

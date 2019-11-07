@@ -55,6 +55,14 @@
             <version>8.0.11</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-sleuth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-zipkin</artifactId>
+        </dependency>
         <!-- in order to fix securityFilterChain issue-->
         <!--<dependency>-->
             <!--<groupId>com.sun.xml.bind</groupId>-->

@@ -17,6 +17,6 @@ public class HomeController extends BaseController {
     @ResponseBody
     public String dispatch(@PathVariable("method") String method, @RequestBody String requestBody) throws Exception {
         BaseRequest baseRequest = JsonUtil.jsonStr2Bean(requestBody, BaseRequest.class);
-        return baseDispatch(method, baseRequest);
+        return baseDispatch(method, baseRequest, CommonLoggerNameConstants.REQUEST_PARAM_LOG_NAME);
     }
 }
