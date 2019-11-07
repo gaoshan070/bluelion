@@ -3,7 +3,7 @@ package com.bluelion.usercenter.cache;
 import com.bluelion.shared.cache.JedisManager;
 import com.bluelion.shared.constants.RedisDBConstants;
 import com.bluelion.shared.constants.UserConstants;
-import com.bluelion.usercenter.entity.UserToken;
+import com.bluelion.shared.model.UserToken;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

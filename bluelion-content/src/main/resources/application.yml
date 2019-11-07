@@ -1,12 +1,18 @@
 server:
   port: 8505
-security:
-  oauth2:
-    resource:
-      user-info-uri: http://localhost:8503/users/current
-    client:
-      id: client_2
-      client-secret: 123456
-      access-token-uri: http://localhost:8503/oauth/token
-      grant-type: client_credentials,password
-      scope: server
+spring:
+  profiles:
+    active: dev
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.bluelion.shared.model
+#security:
+#  oauth2:
+#    resource:
+#      user-info-uri: http://localhost:8503/users/current
+#    client:
+#      id: client_2
+#      client-secret: 123456
+#      access-token-uri: http://localhost:8503/oauth/token
+#      grant-type: client_credentials,password
+#      scope: server

@@ -36,17 +36,20 @@ logging:
 #      grant-type: client_credentials,password
 #      scope: server
 spring:
-  application:
-    name: bluelion-order
-  cloud:
-    consul:
-      config:
-        enabled: true
-        host: localhost
-        port: 8500
-        discovery:
-          health-check-path: /health
-          health-check-interval: 15s
-          instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
-          register: true
-          service-name: bluelion-order
+  profiles:
+    active: dev
+mybatis:
+  mapper-locations: classpath:mapping/*.xml
+  type-aliases-package: com.bluelion.shared.model
+#  cloud:
+#    consul:
+#      config:
+#        enabled: true
+#        host: localhost
+#        port: 8500
+#        discovery:
+#          health-check-path: /health
+#          health-check-interval: 15s
+#          instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+#          register: true
+#          service-name: bluelion-order

@@ -1,7 +1,7 @@
 package com.bluelion.gateway.repository;
 
-import com.bluelion.gateway.entity.SafeInfo;
 import com.bluelion.gateway.mapper.ISafeInfoMapper;
+import com.bluelion.shared.model.SafeInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

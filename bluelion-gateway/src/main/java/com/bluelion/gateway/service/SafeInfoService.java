@@ -1,10 +1,10 @@
 package com.bluelion.gateway.service;
 
 import com.bluelion.gateway.cache.ISafeCacheManager;
-import com.bluelion.gateway.entity.Os;
-import com.bluelion.gateway.entity.SafeInfo;
 import com.bluelion.gateway.repository.SafeInfoRepository;
 import com.bluelion.shared.constants.UserConstants;
+import com.bluelion.shared.model.Os;
+import com.bluelion.shared.model.SafeInfo;
 import com.bluelion.shared.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;

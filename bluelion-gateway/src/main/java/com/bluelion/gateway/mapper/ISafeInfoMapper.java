@@ -1,6 +1,6 @@
 package com.bluelion.gateway.mapper;
 
-import com.bluelion.gateway.entity.SafeInfo;
+import com.bluelion.shared.model.SafeInfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

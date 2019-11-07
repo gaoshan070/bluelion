@@ -10,20 +10,33 @@
           salt,
           email,
           username,
-          nickname
+          phone,
+          nickname,
+          status
         FROM user
         WHERE id=#{userId}
         ]]>
     </select>
-    <select id="login" resultType="com.bluelion.usercenter.entity.User">
+    <select id="login" resultType="com.bluelion.shared.model.User">
 		select * from user where username = #{param1} and password = #{param2}
 	</select>
 
-	<insert id="addUser" parameterType="java.util.Map">
+	<insert id="addUser" parameterType="com.bluelion.shared.model.User">
+        <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
         <![CDATA[
           INSERT INTO user
-          (username,password,nickname,email,salt,status,registedate, lastlogintime)
-          VALUE(#{userName},#{password},#{nickName},#{email},#{salt},1,UNIX_TIMESTAMP(),UNIX_TIMESTAMP())
+          (username,password,nickname,email,phone,salt,status,appid)
+          VALUE(#{userName},#{password},#{nickName},#{email},#{phone},#{salt},1,#{appId})
+        ]]>
+    </insert>
+
+    <insert id="addUserDetail" parameterType="java.util.Map">
+        <![CDATA[
+          INSERT INTO user_detail
+          (mid,regip,regtime,lastloginip,lastlogintime,loginerror)
+          VALUE(#{userId},#{ip},UNIX_TIMESTAMP(),#{ip},UNIX_TIMESTAMP(),0)
         ]]>
     </insert>
 
@@ -43,6 +56,12 @@
     <select id="existUserToken" parameterType="java.lang.Integer" resultType="java.lang.Integer">
         <![CDATA[
         SELECT COUNT(token) FROM user_token WHERE mid=#{userId}
+        ]]>
+    </select>
+
+    <select id="getIdByEmail" parameterType="java.lang.String" resultType="java.lang.Integer">
+        <![CDATA[
+        SELECT id FROM user WHERE email=#{email} LIMIT 1
         ]]>
     </select>
 
@@ -75,7 +94,42 @@
         ]]>
     </update>
 
-    <resultMap id="userToken" type="com.bluelion.usercenter.entity.UserToken">
+    <update id="clearLoginError" parameterType="java.util.Map">
+        UPDATE
+        user_detail
+        SET loginerror=0
+        WHERE mid=#{userId}
+    </update>
+
+    <update id="updatePassword" parameterType="java.util.Map">
+        UPDATE
+        user
+        SET password=#{encodedPassword}, salt=#{salt}
+        WHERE id=#{userId}
+    </update>
+
+    <update id="updateUser" parameterType="com.bluelion.shared.model.User">
+        UPDATE user
+        SET
+        <if test="userName != null">
+          username=#{userName},
+        </if>
+        <if test="phone != null">
+        phone=#{phone},
+        </if>
+        <if test="address1 != null">
+        address1=#{address1},
+        </if>
+        <if test="userName != null">
+        address2=#{address2},
+        </if>
+        <if test="city != null">
+        city=#{city}
+        </if>
+        WHERE id=#{id}
+    </update>
+
+    <resultMap id="userToken" type="com.bluelion.shared.model.UserToken">
         <result property="token" column="token"/>
         <result property="validateToken" column="v_token"/>
         <result property="requestSource" column="request_source"/>
@@ -83,13 +137,14 @@
         <result property="device" column="device"/>
     </resultMap>
 
-    <resultMap id="userDetail" type="com.bluelion.usercenter.entity.User">
+    <resultMap id="userDetail" type="com.bluelion.shared.model.User">
         <result property="id" column="id"/>
         <result property="nickName" column="nickname"/>
         <result property="userName" column="username"/>
         <result property="email" column="email"/>
         <result property="status" column="status"/>
         <result property="password" column="password"/>
+        <result property="phone" column="phone"/>
         <result property="salt" column="salt"/>
     </resultMap>
 </mapper>

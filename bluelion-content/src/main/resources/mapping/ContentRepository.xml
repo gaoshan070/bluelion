@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bluelion.content.mapper.IContentMapper">
+
+    <select id="getContentList" parameterType="java.util.Map" resultType="com.bluelion.shared.model.Content">
+		select *
+		from bl_content
+		where status = 1 and code=#{code}
+	</select>
+
+    <resultMap id="contentDetail" type="com.bluelion.shared.model.Content">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="description" column="description"/>
+        <result property="content" column="content"/>
+        <result property="code" column="code"/>
+    </resultMap>
+</mapper>

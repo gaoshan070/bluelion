@@ -10,4 +10,4 @@ spring:
     active: dev
 mybatis:
   mapper-locations: classpath:mapping/*.xml
-  type-aliases-package: com.bluelion.usercenter.entity
+  type-aliases-package: com.bluelion.shared.model

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bluelion.order.mapper.IServiceTypeMapper">
+
+    <select id="existService" parameterType="java.lang.Integer" resultType="java.lang.Integer">
+        <![CDATA[
+        SELECT
+          count(id)
+        FROM service_type
+        WHERE id=#{serviceId}
+        ]]>
+    </select>
+
+    <select id="serviceList" resultType="com.bluelion.shared.model.ServiceType">
+		select * from service_type where status = 1
+	</select>
+
+    <resultMap id="serviceDetail" type="com.bluelion.shared.model.ServiceType">
+        <result property="id" column="id"/>
+        <result property="serviceName" column="service_name"/>
+    </resultMap>
+</mapper>

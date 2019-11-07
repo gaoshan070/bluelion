@@ -39,4 +39,22 @@ public class UserConstants {
      * 设备登录黑名单启用状态
      */
     public static final int DEVICE_LOGIN_BLACK_LIST_YES_STATUS = 1;
+
+    /**
+     * 发送验证码类型-短信
+     */
+    public static final int SEND_CODE_SMS_TYPE = 1;
+    /**
+     * 发送验证码类型-邮箱
+     */
+    public static final int SEND_CODE_EMAIL_TYPE = 2;
+
+    /**
+     * 短信发送验证码模板
+     */
+    public static final String SEND_CODE_TEMPLATE_4_SMS = " is your Bluelion verification code which will be expired in 30 mins.";
+    /**
+     * 邮件发送验证码模板
+     */
+    public static final String SEND_CODE_TEMPLATE_4_EMAIL = SEND_CODE_TEMPLATE_4_SMS + "【BlueLion】";
 }

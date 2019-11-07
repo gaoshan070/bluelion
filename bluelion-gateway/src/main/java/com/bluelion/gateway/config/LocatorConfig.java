@@ -23,6 +23,16 @@ public class LocatorConfig {
                         .uri("lb://bluelion-usercenter")
                         .order(0)
                         .id("user")
+                ).route(r -> r.path("/order/**")
+                        .filters(f -> f.filters(authFilter).stripPrefix(1))
+                        .uri("lb://bluelion-order")
+                        .order(0)
+                        .id("order")
+                ).route(r -> r.path("/content/**")
+                        .filters(f -> f.filters(authFilter).stripPrefix(1))
+                        .uri("lb://bluelion-content")
+                        .order(0)
+                        .id("content")
                 ).build();
     }
 }

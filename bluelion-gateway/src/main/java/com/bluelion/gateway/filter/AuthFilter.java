@@ -1,11 +1,10 @@
 package com.bluelion.gateway.filter;
 
 import com.alibaba.fastjson.JSONObject;
-import com.bluelion.gateway.entity.SafeInfo;
 import com.bluelion.gateway.service.SafeInfoService;
-import com.bluelion.shared.enums.ResultCodeEnum;
 import com.bluelion.shared.model.BaseRequest;
 import com.bluelion.shared.model.Result;
+import com.bluelion.shared.model.SafeInfo;
 import com.bluelion.shared.utils.JsonUtil;
 import com.bluelion.shared.utils.RequestUtil;
 import com.bluelion.shared.utils.ServiceResultUtil;
@@ -13,7 +12,7 @@ import io.netty.buffer.ByteBufAllocator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpHeaders;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.core.Ordered;
@@ -41,9 +40,6 @@ import java.util.regex.Pattern;
 public class AuthFilter implements GatewayFilter, Ordered {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
-
-    @Value("${spring.profiles.active}")
-    private String profile;
 
     @Autowired
     private SafeInfoService safeService;
@@ -75,19 +71,36 @@ public class AuthFilter implements GatewayFilter, Ordered {
             }
             String clientIp = RequestUtil.getClientIp(exchange);
             logger.info("请求IP:" + clientIp);
+            baseRequest.setIp(clientIp);
             //请求来源验证
             SafeInfo safeInfo = safeService.getSafeInfo(requestSource);
             if (safeInfo == null) {
                 return exchange.getResponse().writeWith(Mono.just(this.getBodyBuffer(exchange.getResponse(), ServiceResultUtil.illegal("invalid request source"))));
             }
+            baseRequest.setSafeInfo(safeInfo);
 
             //TODO 重新封装Request 向下传递
             //下面的将请求体再次封装写回到request里，传到下一级，否则，由于请求体已被消费，后续的服务将取不到值
             URI uri = serverHttpRequest.getURI();
             ServerHttpRequest request = serverHttpRequest.mutate().uri(uri).build();
+            ServerHttpResponse originalResponse = exchange.getResponse();
+            HttpHeaders httpHeaders = originalResponse.getHeaders();
             DataBuffer bodyDataBuffer = stringBuffer(JsonUtil.bean2JsonStr(baseRequest));
             Flux<DataBuffer> bodyFlux = Flux.just(bodyDataBuffer);
             request = new ServerHttpRequestDecorator(request) {
+                @Override
+                public HttpHeaders getHeaders() {
+                    long contentLength = httpHeaders.getContentLength();
+                    HttpHeaders httpHeaders = new HttpHeaders();
+                    httpHeaders.putAll(super.getHeaders());
+                    if (contentLength > 0) {
+                        httpHeaders.setContentLength(contentLength);
+                    } else {
+                        httpHeaders.set(HttpHeaders.TRANSFER_ENCODING, "chunked");
+                    }
+                    return httpHeaders;
+                }
+
                 @Override
                 public Flux<DataBuffer> getBody() {
                     return bodyFlux;
@@ -98,72 +111,6 @@ public class AuthFilter implements GatewayFilter, Ordered {
         } else {
             return exchange.getResponse().writeWith(Mono.just(this.getBodyBuffer(exchange.getResponse(), ServiceResultUtil.unsupportedMethod())));
         }
-
-        //后端调用跳过验签
-//        boolean skipAuth = Boolean.valueOf(exchange.getRequest().getQueryParams().getFirst("skipAuth"));
-//        if (!"dev".equals(profile)&&!"pre".equals(profile)) {
-//            skipAuth = false;
-//        }
-//        boolean skipAuth = false;
-//        if (!skipAuth) {
-//            String sign = exchange.getRequest().getQueryParams().getFirst("sign");
-//            if (StringUtils.isEmpty(sign)) {
-//                //没有验签参数
-//                result.setCode(ResultCodeEnum.SGIN_EMPTY.getCode());
-//                result.setMsg(ResultCodeEnum.SGIN_EMPTY.getMsg());
-//                return exchange.getResponse().writeWith(Mono.just(this.getBodyBuffer(exchange.getResponse(), result)));
-//            }
-//            String publicKey = exchange.getRequest().getHeaders().getFirst("publicKey");
-//            if (StringUtils.isBlank(publicKey)) {
-//                publicKey = exchange.getRequest().getQueryParams().getFirst("p");
-//                if (StringUtils.isBlank(publicKey)) {
-//                    //没有公钥
-//                    result.setCode(ResultCodeEnum.PUBLICKEY_EMPTY.getCode());
-//                    result.setMsg(ResultCodeEnum.PUBLICKEY_EMPTY.getMsg());
-//                    return exchange.getResponse().writeWith(Mono.just(this.getBodyBuffer(exchange.getResponse(), result)));
-//                }
-//            }
-//            String privateKey = redisUtil.getValue(publicKey);
-//            if (!StringUtils.isEmpty(privateKey)) {
-//                TreeMap<String, List<String>> parameterMap = new TreeMap<>(exchange.getRequest().getQueryParams());
-//                //验签
-//                StringBuilder sb = new StringBuilder();
-//                parameterMap.entrySet().forEach(stringEntry -> {
-//                    if (!StringUtils.equalsIgnoreCase(stringEntry.getKey(), "sign") && !StringUtils.equalsIgnoreCase(stringEntry.getKey(), "p")) {
-//                        if (!CollectionUtils.isEmpty(stringEntry.getValue())) {
-//                            sb.append(stringEntry.getKey());
-//                            sb.append("=");
-//                            sb.append(stringEntry.getValue().stream().findFirst().get());
-//                        }
-//                    }
-//                });
-//                sb.append("privateKey=");
-//                sb.append(privateKey);
-//                String urlString = sb.toString();
-////                try {
-////                    urlString = URLEncoder.encode(sb.toString(), "UTF-8");
-////                } catch (UnsupportedEncodingException e) {
-////                    logger.error("url encode fail");
-////                }
-//                logger.info(urlString);
-//                String serverSign = DigestUtils.md5Hex(urlString);
-//                logger.info(serverSign);
-//                if (!serverSign.equals(sign)) {
-//                    //验签不通过
-//                    result.setCode(ResultCodeEnum.SIGN_INVALID.getCode());
-//                    result.setMsg(ResultCodeEnum.SIGN_INVALID.getMsg());
-//                    return exchange.getResponse().writeWith(Mono.just(this.getBodyBuffer(exchange.getResponse(), result)));
-//                }
-//            } else {
-//                //私钥过期
-//                result.setCode(ResultCodeEnum.PRIVATEKEY_EXPIRE.getCode());
-//                result.setMsg(ResultCodeEnum.PRIVATEKEY_EXPIRE.getMsg());
-//                return exchange.getResponse().writeWith(Mono.just(this.getBodyBuffer(exchange.getResponse(), result)));
-//            }
-//        }
-
-
-//        return chain.filter(exchange);
     }
 
     /**

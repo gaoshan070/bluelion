@@ -1,8 +1,8 @@
 package com.bluelion.gateway.cache;
 
-import com.bluelion.gateway.entity.SafeInfo;
 import com.bluelion.shared.cache.JedisManager;
 import com.bluelion.shared.constants.RedisDBConstants;
+import com.bluelion.shared.model.SafeInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 

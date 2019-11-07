@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bluelion.content.mapper.IPrintTemplateMapper">
+
+    <select id="getPrintTemplates" parameterType="java.util.Map" resultType="com.bluelion.shared.model.PrintTemplate">
+		select *
+		from bl_print_template
+		where status = 1
+	</select>
+
+    <resultMap id="printTemplateDetail" type="com.bluelion.shared.model.PrintTemplate">
+        <result property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="params" column="params"/>
+    </resultMap>
+
+</mapper>

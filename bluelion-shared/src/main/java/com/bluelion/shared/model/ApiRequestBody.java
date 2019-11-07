@@ -6,9 +6,9 @@ import com.bluelion.shared.utils.CodecUtils;
 
 public abstract class ApiRequestBody extends BaseRequest {
 
-    public ApiRequestBody parseRequest(BaseRequest request) throws Exception {
+    public void parseRequest(BaseRequest request) throws Exception {
         try {
-            KeyGroup keyGroup = KeyGroup.DEFAULT;
+            KeyGroup keyGroup = KeyGroup.valueOf(request.getSafeInfo().getKeyGroup());
             String requestString;
             if (EncodeMethod.AES.equals(keyGroup.getEncodeMethod())) {
                 requestString = CodecUtils.aesDecode(request.getParams(), keyGroup);
@@ -20,7 +20,9 @@ public abstract class ApiRequestBody extends BaseRequest {
                 ApiRequestBody requestBody = setFields(requestString);
                 this.deviceInfo = requestBody.getDeviceInfo();
                 this.otherInfo = requestBody.getOtherInfo();
-                return requestBody;
+                this.token = requestBody.getToken();
+                this.safeInfo = request.getSafeInfo();
+                this.ip = request.getIp();
             } else {
                 throw new Exception("签名错误");
             }

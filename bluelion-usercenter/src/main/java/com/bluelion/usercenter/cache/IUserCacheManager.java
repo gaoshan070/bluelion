@@ -1,7 +1,6 @@
 package com.bluelion.usercenter.cache;
 
-
-import com.bluelion.usercenter.entity.UserToken;
+import com.bluelion.shared.model.UserToken;
 
 public interface IUserCacheManager {
 

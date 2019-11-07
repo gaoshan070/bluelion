@@ -1,6 +1,6 @@
 package com.bluelion.gateway.cache;
 
-import com.bluelion.gateway.entity.SafeInfo;
+import com.bluelion.shared.model.SafeInfo;
 
 public interface ISafeCacheManager {
 

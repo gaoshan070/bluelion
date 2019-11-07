@@ -1,4 +1,4 @@
-package com.bluelion.usercenter.entity;
+package com.bluelion.shared.model;
 
 import lombok.Data;
 

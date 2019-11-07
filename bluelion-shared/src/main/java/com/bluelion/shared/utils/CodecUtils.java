@@ -134,7 +134,29 @@ public class CodecUtils {
     }
 
     public static void main(String[] args) throws Exception {
-        String data = "{\"account\": \"gaoshan\",\"password\": \"1234qwer\",\"device_info\": {\"mac\": \"xxx\"},\"other_info\": {\"app_id\": \"xxxx\"}}";
+// Login body
+//                String data = "{\"account\": \"gaoshan070@gmail.com\",\"password\": \"1qaz2wsx\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
+        //Register body
+//        String data = "{\"account\": \"gaoshan070@gmail.com\",\"password\": \"1234qwer\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
+        //Logout body
+//        String data = "{\"account\": \"gaoshan070@gmail.com\",\"token\": \"dcb16b2af217dab6254f2a17c2b995dd\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
+// Send code lost pass body
+//        String data = "{\"account\": \"gaoshan070@gmail.com\",\"type\": \"1\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
+// Send code modify pass body
+//        String data = "{\"account\": \"gaoshan070@gmail.com\",\"type\": \"2\",\"token\": \"dcb16b2af217dab6254f2a17c2b995dd\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
+//Modify pass body
+//        String data = "{\"account\": \"gaoshan070@gmail.com\",\"old_password\": \"1234qwer\",\"new_password\": \"1qaz2wsx\",\"validation_code\": \"2800\",\"token\": \"dcb16b2af217dab6254f2a17c2b995dd\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
+        //Get User info body
+//        String data = "{\"account\": \"gaoshan070@gmail.com\",\"token\": \"dcb16b2af217dab6254f2a17c2b995dd\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
+
+        //Create print order body
+//        String data = "{\"user_id\": \"1\",\"plate_number\": \"LBZ806\",\"service\": \"1\",\"next_service_due\": \"68000\",\"print_date\": \"2019-11-07\",\"token\": \"dcb16b2af217dab6254f2a17c2b995dd\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
+
+        //QA list body
+//        String data = "{\"user_id\": \"1\",\"token\": \"dcb16b2af217dab6254f2a17c2b995dd\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
+
+        // Init Body
+        String data = "{\"is_test\": \"1\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
         String mySign = CodecUtils.getMySign(data, KeyGroup.DEFAULT);
         String encryptionData = aesEncode(data, KeyGroup.DEFAULT);
         System.out.println(mySign);

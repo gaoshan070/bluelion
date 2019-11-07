@@ -14,11 +14,11 @@ import lombok.Data;
 public class Result {
 
         @SerializedName("code")
-        private String code;
+        private String code = ResultCodeEnum.SUCCESS.getCode();
         @SerializedName("msg")
-        private String msg;
+        private String msg = "";
         @SerializedName("data")
-        private JsonElement data;
+        private JsonElement data = new JsonObject();
 
         public Result() {
             this.code = ResultCodeEnum.SUCCESS.getCode();

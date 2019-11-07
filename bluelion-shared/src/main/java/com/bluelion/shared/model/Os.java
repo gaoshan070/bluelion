@@ -1,4 +1,4 @@
-package com.bluelion.gateway.entity;
+package com.bluelion.shared.model;
 
 public enum Os {
 

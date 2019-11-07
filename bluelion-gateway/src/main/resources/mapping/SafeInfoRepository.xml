@@ -37,7 +37,7 @@
         <!--SELECT COUNT(1) FROM mc_vip_blacklist WHERE mid=#{userId} AND status=1-->
     <!--</select>-->
 
-    <resultMap id="safeInfoMap" type="com.bluelion.gateway.entity.SafeInfo">
+    <resultMap id="safeInfoMap" type="com.bluelion.shared.model.SafeInfo">
         <result property="requestSource" column="request_source"/>
         <result property="ip" column="ip"/>
         <result property="keyGroup" column="key_group"/>

@@ -1,4 +1,4 @@
 package com.bluelion.usercenter.response;
 
-public class RegisterResponse {
+public class RegisterResponse extends LoginResponse {
 }

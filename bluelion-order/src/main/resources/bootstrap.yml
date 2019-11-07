@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: bluelion-order
+  cloud:
+    consul:
+      discovery:
+        prefer-ip-address: true
+        health-check-path: /health
+        health-check-interval: 15s
+#      host: consul
+      host: localhost
+      port: 8500

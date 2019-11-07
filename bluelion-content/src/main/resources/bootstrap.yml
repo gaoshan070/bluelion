@@ -3,13 +3,22 @@ spring:
     name: bluelion-content
   cloud:
     consul:
-      config:
-        enabled: true
-        host: localhost
-        port: 8500
-        discovery:
-          health-check-path: /health
-          health-check-interval: 15s
-          instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
-          register: true
-          service-name: bluelion-content
+      discovery:
+        prefer-ip-address: true
+        health-check-path: /health
+        health-check-interval: 15s
+      #      host: consul
+      host: localhost
+      port: 8500
+#  cloud:
+#    consul:
+#      config:
+#        enabled: true
+#        host: localhost
+#        port: 8500
+#        discovery:
+#          health-check-path: /health
+#          health-check-interval: 15s
+#          instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
+#          register: true
+#          service-name: bluelion-content

@@ -17,11 +17,20 @@ public class BaseRequest {
     @SerializedName("other_info")
     protected OtherInfo otherInfo;
 
+    @SerializedName("safe_info")
+    protected SafeInfo safeInfo;
+
     /**
      * 签名
      */
     @SerializedName("sign")
     protected String sign;
+
+    /**
+     * 签名
+     */
+    @SerializedName("ip")
+    protected String ip;
 
     /**
      * 请求参数
@@ -38,4 +47,12 @@ public class BaseRequest {
     @SerializedName("version")
     private String version;
 
+    @SerializedName("token")
+    protected String token;
+
+    /**
+     * 应用ID
+     */
+    @SerializedName("app_id")
+    protected String appId;
 }

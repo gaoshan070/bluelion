@@ -14,15 +14,19 @@ public class RegisterRequest extends ApiRequestBody {
     @SerializedName("password")
     private String password;
 
-    @SerializedName("confirm_password")
-    private String confirmPassword;
+    @SerializedName("full_name")
+    private String fullName;
+
+    @SerializedName("phone")
+    private String phone;
 
     @Override
     protected ApiRequestBody setFields(String requestString) {
         RegisterRequest request = JsonUtil.jsonStr2Bean(requestString, RegisterRequest.class);
         this.account = request.getAccount();
         this.password = request.getPassword();
-        this.confirmPassword = request.getConfirmPassword();
+        this.fullName = request.getFullName();
+        this.phone = request.getPhone();
         return request;
     }
 }
