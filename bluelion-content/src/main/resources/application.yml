@@ -7,7 +7,7 @@ logging:
   file: /data/log/bluelion/content/content.log
 spring:
   profiles:
-    active: dev
+    active: @activatedProperties@
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: com.bluelion.shared.model

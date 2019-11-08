@@ -1,15 +1,12 @@
 package com.bluelion;
 
-import com.bluelion.gateway.config.CustomerGatewayFilter;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.gateway.route.RouteLocator;
-import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 
+@EnableCircuitBreaker
 @SpringBootApplication
-@EnableDiscoveryClient
 @MapperScan("com.bluelion.gateway.mapper")
 public class GatewayApplication {
 
@@ -25,16 +22,16 @@ public class GatewayApplication {
 //    }
 
 //    @Bean
-    public RouteLocator customerRouteLocator(RouteLocatorBuilder builder) {
-        return builder.routes()
-                .route(r -> r.path("/customer/**")
-                        .filters(f -> f.filter(new CustomerGatewayFilter())
-                                .addResponseHeader("X-Response-test", "test"))
-                        .uri("http://httpbin.org:80/get")
-                        .id("customer_filter_router")
-                )
-                .build();
-    }
+//    public RouteLocator customerRouteLocator(RouteLocatorBuilder builder) {
+//        return builder.routes()
+//                .route(r -> r.path("/customer/**")
+//                        .filters(f -> f.filter(new CustomerGatewayFilter())
+//                                .addResponseHeader("X-Response-test", "test"))
+//                        .uri("http://httpbin.org:80/get")
+//                        .id("customer_filter_router")
+//                )
+//                .build();
+//    }
 
 }
 

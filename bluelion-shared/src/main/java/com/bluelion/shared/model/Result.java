@@ -67,4 +67,8 @@ public class Result {
             }
             return result;
         }
+
+        public String toString() {
+            return JsonUtil.bean2JsonStr(this);
+        }
 }

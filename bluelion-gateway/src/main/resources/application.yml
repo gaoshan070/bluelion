@@ -17,7 +17,10 @@ logging:
 
 spring:
   profiles:
-    active: elapse_route, dev
+    active: @activatedProperties@
+  devtools:
+    restart:
+      enabled: true
   cloud:
     gateway:
       discovery:
