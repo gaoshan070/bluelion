@@ -29,7 +29,25 @@ spring:
       discovery:
         locator:
           enabled: true
-
+#      default-filters:
+#      - name: RequestRateLimiter
+#        args:
+#          redis-rate-limiter.replenishRate: 2  #流速 每秒
+#          redis-rate-limiter.burstCapacity: 10   #令牌桶的容积
+#          rate-limiter: "#{@defaultRedisRateLimiter}"  #SPEL表达式去的对应的bean
+#          key-resolver: "#{@apiKeyResolver}" #SPEL表达式去的对应的bean
+#      routes:
+#        - id: limit_route
+#          uri: http://localhost:8502
+#          predicates:
+#            - Method=POST
+#            - Path=/*
+#          filters:
+#            - name: RequestRateLimiter
+#              args:
+#                key-resolver: '#{@apiKeyResolver}'
+#                redis-rate-limiter.replenishRate: 1
+#                redis-rate-limiter.burstCapacity: 3
 #为各个服务设置熔断超时时间，默认为1秒，设置为5秒
 hystrix.command.userHystrix.execution.isolation.thread.timeoutInMilliseconds: 5000
 hystrix.command.orderHystrix.execution.isolation.thread.timeoutInMilliseconds: 5000
