@@ -156,7 +156,10 @@ public class CodecUtils {
 //        String data = "{\"user_id\": \"1\",\"token\": \"dcb16b2af217dab6254f2a17c2b995dd\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
 
         // Init Body
-        String data = "{\"is_test\": \"1\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
+//        String data = "{\"is_test\": \"1\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
+
+        //Print Order History Body
+        String data = "{\"user_id\": \"1\",\"token\": \"dcb16b2af217dab6254f2a17c2b995dd\",\"device_info\": {\"mac\": \"xxx\",\"imei\": \"imei\",\"imsi\":\"imsi\",\"os\": 1,\"android_info\": {\"android_id\":\"android_id\",\"android_serial_number\":\"serial_number_12222\"}},\"other_info\": {\"app_id\": \"xxxx\"}}";
         String mySign = CodecUtils.getMySign(data, KeyGroup.DEFAULT);
         String encryptionData = aesEncode(data, KeyGroup.DEFAULT);
         System.out.println(mySign);

@@ -1,6 +1,5 @@
 package com.bluelion.order.api;
 
-import com.bluelion.order.request.CreateOrderRequest;
 import com.bluelion.order.request.PrintHistoryRequest;
 import com.bluelion.order.response.PrintHistoryResponse;
 import com.bluelion.order.service.PrintOrderService;
@@ -38,8 +37,8 @@ public class PrintHistoryService extends OrderBaseService implements IMethodServ
 
     @Override
     public User getUser(ApiRequestBody apiRequestBody) {
-        CreateOrderRequest createOrderRequest = (CreateOrderRequest) apiRequestBody;
-        User user = userService.userDetail(createOrderRequest.getUserId());
+        PrintHistoryRequest printHistoryRequest = (PrintHistoryRequest) apiRequestBody;
+        User user = userService.userDetail(printHistoryRequest.getUserId());
         return user;
     }
 

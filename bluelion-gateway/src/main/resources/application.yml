@@ -9,6 +9,9 @@ server:
     min-response-size: 100
     connection-timeout: 10s
 logging:
+  pattern:
+    console: "%d - %msg%n"
+    file: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level - %msg%n"
   level:
     org.springframework.cloud: info
     org.springframework.cloud.gateway: info
@@ -26,6 +29,11 @@ spring:
       discovery:
         locator:
           enabled: true
+
+#为各个服务设置熔断超时时间，默认为1秒，设置为5秒
+hystrix.command.userHystrix.execution.isolation.thread.timeoutInMilliseconds: 5000
+hystrix.command.orderHystrix.execution.isolation.thread.timeoutInMilliseconds: 5000
+hystrix.command.contentHystrix.execution.isolation.thread.timeoutInMilliseconds: 5000
 #      routes:
 #      - id: rewritepath_route
 #        uri: http://localhost:8501
@@ -33,21 +41,21 @@ spring:
 #        - Path=/user/**
 #        filters:
 #        - RewritePath=/user/(?<segment>.*), /$\{segment}
----
-spring:
-  profiles: add_request_header_route
-  cloud:
-    gateway:
-      routes:
-      - id: add_request_header_route
-        uri: http://httpbin.org:80/get
-        filters:
-        - AddRequestHeader=X-Request-Foo, Bar
-        predicates:
-        - Method=GET
----
-spring:
-  profiles: elapse_route
+#---
+#spring:
+#  profiles: add_request_header_route
+#  cloud:
+#    gateway:
+#      routes:
+#      - id: add_request_header_route
+#        uri: http://httpbin.org:80/get
+#        filters:
+#        - AddRequestHeader=X-Request-Foo, Bar
+#        predicates:
+#        - Method=GET
+#---
+#spring:
+#  profiles: elapse_route
 #  cloud:
 #    gateway:
 #      routes:

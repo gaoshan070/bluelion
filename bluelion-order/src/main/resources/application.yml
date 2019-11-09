@@ -1,6 +1,5 @@
 server:
   port: 8504
-
 logging:
   level:
     org.springframework.cloud: INFO
@@ -38,7 +37,10 @@ logging:
 #      scope: server
 spring:
   profiles:
-    active: dev
+    active: @activatedProperties@
+  devtools:
+    restart:
+      enabled: true
 mybatis:
   mapper-locations: classpath:mapping/*.xml
   type-aliases-package: com.bluelion.shared.model
@@ -54,3 +56,6 @@ mybatis:
 #          instance-id: ${spring.application.name}:${spring.cloud.client.ip-address}:${server.port}
 #          register: true
 #          service-name: bluelion-order
+feign:
+  hystrix:
+    enabled: true

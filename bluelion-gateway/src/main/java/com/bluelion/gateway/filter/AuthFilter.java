@@ -98,6 +98,7 @@ public class AuthFilter implements GatewayFilter, Ordered {
                     } else {
                         httpHeaders.set(HttpHeaders.TRANSFER_ENCODING, "chunked");
                     }
+//                    httpHeaders.add("Content-Type", "application/json;charset=UTF-8");
                     return httpHeaders;
                 }
 

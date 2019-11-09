@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.*;
 
 @Service
-@FeignClient(value = "bluelion-usercenter")
+@FeignClient(value = "bluelion-usercenter", fallback = UserServiceHystrix.class)
 public interface UserService {
 
     @GetMapping("/user/detail/{userId}")

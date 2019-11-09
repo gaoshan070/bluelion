@@ -14,30 +14,33 @@ public class LocatorConfig {
     @Autowired
     private AuthFilter authFilter;
 
+    @Autowired
+    private CustomerGatewayFilter customerGatewayFilter;
+
     @Bean
     @ConditionalOnBean(AuthFilter.class)
     public RouteLocator routeLocator(RouteLocatorBuilder builder) {
         return builder.routes()
                 .route(r -> r.path("/user/**")
-                        .filters(f -> f.filters(authFilter).stripPrefix(1)
+                        .filters(f -> f.filters(authFilter, customerGatewayFilter).stripPrefix(1)
                                 .hystrix(config -> config
-                                .setName("myHystrix")
+                                .setName("userHystrix")
                                 .setFallbackUri("forward:/defaultfallback/user")))
                         .uri("lb://bluelion-usercenter")
                         .order(0)
                         .id("user")
                 ).route(r -> r.path("/order/**")
-                        .filters(f -> f.filters(authFilter).stripPrefix(1)
+                        .filters(f -> f.filters(authFilter, customerGatewayFilter).stripPrefix(1)
                                 .hystrix(config -> config
-                                .setName("myHystrix")
+                                .setName("orderHystrix")
                                 .setFallbackUri("forward:/defaultfallback/order")))
                         .uri("lb://bluelion-order")
                         .order(0)
                         .id("order")
                 ).route(r -> r.path("/content/**")
-                        .filters(f -> f.filters(authFilter).stripPrefix(1)
+                        .filters(f -> f.filters(authFilter, customerGatewayFilter).stripPrefix(1)
                                 .hystrix(config -> config
-                                .setName("myHystrix")
+                                .setName("contentHystrix")
                                 .setFallbackUri("forward:/defaultfallback/content")))
                         .uri("lb://bluelion-content")
                         .order(0)
