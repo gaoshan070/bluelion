@@ -17,6 +17,8 @@
         <module>bluelion-auth</module>
         <module>bluelion-content</module>
         <module>bluelion-order</module>
+        <module>bluelion-management</module>
+        <module>bluelion-monitor</module>
     </modules>
 
     <parent>

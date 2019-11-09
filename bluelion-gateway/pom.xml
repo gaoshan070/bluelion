@@ -60,6 +60,14 @@
             <artifactId>spring-cloud-starter-consul-all</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/de.codecentric/spring-boot-admin-starter-client -->
+        <dependency>
+            <groupId>de.codecentric</groupId>
+            <artifactId>spring-boot-admin-starter-client</artifactId>
+            <version>1.2.3</version>
+        </dependency>
+
+
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>

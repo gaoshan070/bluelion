@@ -20,6 +20,9 @@ public class RegisterRequest extends ApiRequestBody {
     @SerializedName("phone")
     private String phone;
 
+    @SerializedName("company")
+    private Integer companyId;
+
     @Override
     protected ApiRequestBody setFields(String requestString) {
         RegisterRequest request = JsonUtil.jsonStr2Bean(requestString, RegisterRequest.class);
@@ -27,6 +30,7 @@ public class RegisterRequest extends ApiRequestBody {
         this.password = request.getPassword();
         this.fullName = request.getFullName();
         this.phone = request.getPhone();
+        this.companyId = request.getCompanyId();
         return request;
     }
 }

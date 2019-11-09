@@ -18,3 +18,21 @@ spring:
       probability: 1.0 # 将采样比例设置为 1.0，也就是全部都需要。默认是 0.1
     zipkin:
       base-url: http://localhost:9411/
+
+#  management:
+#    security:
+#      enabled: false
+#  boot:
+#    admin:
+#      client:
+#        # Spring Boot Admin 服务端地址
+#        url: "http://localhost:8503/"
+#        instance:
+#          metadata:
+#            # 客户端端点信息的安全认证信息
+#            user.name: ${spring.security.user.name}
+#            user.password: ${spring.security.user.password}
+#    security:
+#      user:
+#        name: gaoshan
+#        password: 123456

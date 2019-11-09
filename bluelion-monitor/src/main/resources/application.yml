@@ -1,0 +1,14 @@
+server:
+  port: 8503
+#logging:
+#  pattern:
+#    console: "%d - %msg%n"
+#    file: "%d{yyyy/MM/dd-HH:mm:ss} [%thread] %-5level - %msg%n"
+#  level:
+#    org.springframework.cloud: info
+#    com.bluelion: info
+#  file: /data/log/bluelion/monitor/monitor.log
+
+spring:
+  application:
+      name: admin-monitor
