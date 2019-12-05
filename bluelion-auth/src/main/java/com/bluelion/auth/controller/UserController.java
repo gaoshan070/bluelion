@@ -14,8 +14,10 @@ import java.util.Map;
 public class UserController {
 
     @GetMapping(value = "/current")
-    public Principal getUser(Principal principal) {
-        return principal;
+    public Map getUser(Principal principal) {
+        Map<String, String> result = Maps.newHashMap();
+        result.put("name",principal.getName());
+        return result;
     }
 
     @GetMapping(value = "/{id}")
